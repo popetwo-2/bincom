@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="container mt-5">
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    {{unit.polling_unit_name}} in {{lga.lga_name}} LGA Total Result={{total}}
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {% if results %}
+                    {% for result in results %}
+                    <div class="col-lg-4 col-md-6 col-sm-12 pb-4">
+                        <p>{{result.party_abbreviation}}: {{result.party_score}}</p>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>We don't have the results yet OR Result not out yet</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    <div class="row ">
+        <a href="#" class="btn btn-danger mt-5" onclick="goBack()">Back</a>
+    </div>
+
+
+{% endblock %}

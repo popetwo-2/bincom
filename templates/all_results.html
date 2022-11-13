@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="text text-center">
+    <p>Results for </p>
+</div>
+
+<div class="container">
+    <table class="table table-responsive table-striped mb-5">
+        <thead>
+        <tr>
+            <th>Local Government</th>
+            <th>Total Result</th>
+        </tr>
+        </thead>
+        <tbody class="card_color-bg">
+        {% for res in res %}
+        <tr>
+            <td>{{ res.party_abbreviation }}</td>
+            <td>{{ res.party_score }}</td>
+            <td>{{ res.date_entered }}</td>
+
+
+        </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+    {% if res %}
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if res.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ res.previous_page_number }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            {% endif %}
+
+            {% if res.number|add:'-4' > 1 %}
+            <li class="page-item"><a class="page-link" href="?page={{ res.number|add:'-5' }}">&hellip;</a></li>
+            {% endif %}
+
+            {% for i in res.paginator.page_range %}
+            {% if res.number == i %}
+            <li class="page-item " aria-current="page">
+              <span class="page-link">
+                {{ i }}
+                <span class="sr-only"></span>
+              </span>
+            </li>
+            {% elif i > res.number|add:'-5' and i < res.number|add:'5' %}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if res.paginator.num_pages > res.number|add:'4' %}
+            <li class="page-item"><a class="page-link" href="?page={{ res.number|add:'5' }}">&hellip;</a></li>
+            {% endif %}
+
+            {% if res.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ res.next_page_number }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
